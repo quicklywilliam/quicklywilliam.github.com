@@ -1,0 +1,22 @@
+{
+  "name": "github-blog",
+  "version": "1.0.0",
+  "description": "Simple markdown-based blog with static generation",
+  "type": "module",
+  "scripts": {
+    "build": "node build.js",
+    "watch": "chokidar 'posts/**/*.md' 'templates/**/*.html' 'static/**/*' 'build.js' -c 'npm run build'",
+    "serve": "live-server public --port=8000 --no-css-inject",
+    "dev": "concurrently --kill-others \"npm run watch\" \"npm run serve\""
+  },
+  "dependencies": {
+    "marked": "^12.0.0",
+    "marked-footnote": "^1.2.2",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^9.1.0",
+    "live-server": "^1.2.2"
+  }
+}
