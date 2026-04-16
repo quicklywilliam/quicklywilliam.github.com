@@ -9,6 +9,7 @@ import yaml from 'js-yaml';
 marked.use(markedFootnote());
 
 const POSTS_DIR = 'posts';
+const PAGES_DIR = 'pages';
 const PUBLIC_DIR = 'public';
 const TEMPLATES_DIR = 'templates';
 const STATIC_DIR = 'static';
@@ -94,6 +95,34 @@ async function parsePost(filePath) {
 async function loadTemplate(name) {
   const filePath = path.join(TEMPLATES_DIR, name);
   return await fs.readFile(filePath, 'utf-8');
+}
+
+// Parse a page (markdown file without required frontmatter)
+async function parsePage(filePath) {
+  const content = await fs.readFile(filePath, 'utf-8');
+  const basename = path.basename(filePath, '.md');
+  const title = basename.replace(/-/g, ' ');
+  const slug = slugify(basename);
+
+  let markdown = content;
+  const match = content.match(/^---\n([\s\S]+?)\n---\n([\s\S]*)$/);
+  if (match) {
+    const frontmatter = yaml.load(match[1]);
+    markdown = match[2];
+    return {
+      title: frontmatter.title || title,
+      slug,
+      html: marked(markdown),
+      url: `/${slug}.html`
+    };
+  }
+
+  return {
+    title,
+    slug,
+    html: marked(markdown),
+    url: `/${slug}.html`
+  };
 }
 
 // Simple template replacement
@@ -258,9 +287,28 @@ async function build() {
   // Ensure public directory exists
   await fs.mkdir(PUBLIC_DIR, { recursive: true });
 
+  // Load and process pages
+  const pages = [];
+  try {
+    const pageFiles = await fs.readdir(PAGES_DIR);
+    const pageMdFiles = pageFiles.filter(f => f.endsWith('.md'));
+    for (const file of pageMdFiles) {
+      const filePath = path.join(PAGES_DIR, file);
+      const page = await parsePage(filePath);
+      pages.push(page);
+    }
+    pages.sort((a, b) => a.title.localeCompare(b.title));
+  } catch (error) {
+    // No pages directory, that's fine
+  }
+
+  const navLinks = pages.map(p => `<a href="${p.url}">${p.title}</a>`).join('\n      ');
+
   // Load templates
-  const layoutTemplate = await loadTemplate('layout.html');
+  let layoutTemplate = await loadTemplate('layout.html');
+  layoutTemplate = layoutTemplate.replace('{{nav}}', navLinks);
   const postTemplate = await loadTemplate('post.html');
+  const pageTemplate = await loadTemplate('page.html');
   const homeTemplate = await loadTemplate('home.html');
 
   // Get all posts
@@ -303,6 +351,24 @@ async function build() {
 
   console.log('\nGenerating RSS feed:');
   await generateRSS(posts);
+
+  // Generate pages
+  if (pages.length > 0) {
+    console.log('\nGenerating pages:');
+    for (const page of pages) {
+      const pageHtml = renderTemplate(pageTemplate, {
+        title: page.title,
+        content: page.html
+      });
+      const fullHtml = renderTemplate(layoutTemplate, {
+        title: `${page.title} - ${SITE_TITLE}`,
+        content: pageHtml
+      });
+      const outputPath = path.join(PUBLIC_DIR, `${page.slug}.html`);
+      await fs.writeFile(outputPath, fullHtml);
+      console.log(`Generated: ${page.url}`);
+    }
+  }
 
   console.log('\nCopying static files:');
   await copyStatic();
