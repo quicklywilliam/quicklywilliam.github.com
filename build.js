@@ -7,7 +7,6 @@ import markedFootnote from 'marked-footnote';
 import yaml from 'js-yaml';
 
 marked.use(markedFootnote());
-import { execSync } from 'child_process';
 
 const POSTS_DIR = 'posts';
 const PUBLIC_DIR = 'public';
@@ -63,10 +62,16 @@ async function parsePost(filePath) {
     '<hr>'
   );
   const slug = slugify(path.basename(filePath, '.md'));
-  const date = new Date(frontmatter.date);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  let year, month, day, date;
+  if (frontmatter.date instanceof Date) {
+    date = frontmatter.date;
+    year = date.getUTCFullYear();
+    month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    day = String(date.getUTCDate()).padStart(2, '0');
+  } else {
+    [year, month, day] = String(frontmatter.date).split('-');
+    date = new Date(`${year}-${month}-${day}T00:00:00`);
+  }
 
   return {
     title: frontmatter.title,
@@ -83,19 +88,6 @@ async function parsePost(filePath) {
     fullUrl: `${SITE_URL}/${year}/${month}/${day}/${slug}.html`,
     filePath
   };
-}
-
-// Get list of changed files from git
-function getChangedFiles() {
-  try {
-    const output = execSync('git diff --name-only HEAD^ HEAD', { encoding: 'utf-8' });
-    const files = output.split('\n').filter(f => f.startsWith(POSTS_DIR) && f.endsWith('.md'));
-    return files;
-  } catch (error) {
-    // If git diff fails (first commit, etc.), rebuild all
-    console.log('Could not get git diff, rebuilding all posts');
-    return null;
-  }
 }
 
 // Load template
@@ -296,15 +288,10 @@ async function build() {
   // Sort posts by date (newest first)
   posts.sort((a, b) => b.dateObj - a.dateObj);
 
-  // Get changed files
-  const changedFiles = getChangedFiles();
-
-  // Generate individual post pages (only changed ones if possible)
+  // Generate individual post pages
   console.log('\nGenerating posts:');
   for (const post of posts) {
-    if (!changedFiles || changedFiles.includes(post.filePath)) {
-      await generatePost(post, layoutTemplate, postTemplate);
-    }
+    await generatePost(post, layoutTemplate, postTemplate);
   }
 
   // Always regenerate homepage, pagination, and RSS
