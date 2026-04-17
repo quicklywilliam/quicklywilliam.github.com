@@ -5,19 +5,17 @@ date: 2026-04-12
 
 Let's get this out of the way first: yes, we are in a bubble. Like any good bubble, the AI race is being driven by FOMO. Investors are afraid of missing out on a massively profitable, winner-takes-all endgame. Companies are afraid of losing to the competition if they are last to adopt AI. The United States is afraid of losing to China. 
 
-But please, dear reader, don’t mistake me for an AI naysayer. I’ve seen what this technology can *already* do. If all new development froze today, AI would still be one of the largest technology advances ever. It would take years, and more likely decades, for society to fully metabolize the impact.
+But please, dear reader, don’t mistake me for an AI naysayer. I’ve seen what this technology can *already* do. If all new development froze today, AI would still be one of the largest technology advances ever. It would take years, and more likely decades, for society to fully metabolize the impact. 
 
-So: AI is currently driven by FOMO, and *also* AI is a genuine leap in technology. This combination—real innovation wrapped in speculative excess—is precisely what makes it a bubble rather than pure fraud. The technology works. The economics might not.
-
-The interesting question isn’t whether we are in a bubble: it’s what happens when it pops.
+So: the technology is powerful, but the economics are unsustainable. Sooner or later, something is going to give. What happens then?
 
 ### We've Seen This Show Before
 
-Uber offers an instructive parallel. The product was compelling: tap a button, get a ride. Growth was explosive, and no one wanted to miss out on the next Facebook. The pitch to investors rested on two long-term promises: ride-hailing would be winner-takes-all, and autonomous vehicles would eventually replace human drivers, unlocking massive profitability. As capital flooded in, Uber used this money to subsidize predatory pricing that undercut taxis and bought market share.
+Uber offers an instructive parallel. The technology was compelling: tap a button, get a ride. Growth was explosive, and no one wanted to miss out on the next Facebook. The pitch to investors rested on two long-term promises: ride-hailing would be winner-takes-all, and autonomous vehicles would eventually replace human drivers, unlocking massive profitability. As capital flooded in, Uber used it to subsidize predatory pricing that undercut taxis and bought market share.
 
-Reality proved messier. Ride-hailing has limited network effects, and once the cheap rides were over users became intensely price-sensitive. And as for the promise of autonomous vehicles… Uber never got there. Only today, over a decade later, are we finally starting to see self-driving technology that's good enough – and it's an entirely different technology stack built by a different set of companies.[^1]
+Reality proved messier. Ride-hailing turned out to have very limited network effects[^1]. Once the cheap rides were over users became intensely price-sensitive. And as for the promise of autonomous vehicles… Uber never got there. Only today, over a decade later, are we finally starting to see self-driving technology that's good enough – and it's an entirely different technology stack built by a different set of companies.
 
-This AI bubble rhymes. Armed with compelling technology and eye-popping user growth, AI companies are raising unheard-of amounts of money. They are making the same two long-term promises: a winner-takes-all market with near infinite profitability unlocked by the imminent arrival of AGI that can replace humans for nearly any task. And they're using this money to get people and companies hooked on using AI at heavily subsidized prices. 
+The AI race rhymes. Armed with compelling technology and eye-popping user growth, AI companies are raising unheard-of amounts of money. They are making the same two long-term promises: a winner-takes-all market with near infinite profitability unlocked by the imminent arrival of AGI that can replace humans for nearly any task. And they're using this money to get people and companies hooked on using AI at heavily subsidized prices.
 
 ### When the bubble bursts, the AI race will shift from capability to cost
 
