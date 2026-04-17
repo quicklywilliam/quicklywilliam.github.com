@@ -381,9 +381,17 @@ footer a svg {
     right: 1rem;
   }
 
+  .header-nav {
+    gap: 0;
+  }
+
   .header-nav a {
     font-size: 0.8rem;
-    padding: 0.4rem 0.75rem;
+    padding: 0.4rem 0.5rem;
+  }
+
+  .nav-label {
+    display: none;
   }
 
   article {
