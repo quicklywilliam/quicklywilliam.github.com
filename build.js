@@ -35,6 +35,13 @@ function formatRSSDate(date) {
   return new Date(date).toUTCString();
 }
 
+// Utility: Extract plain text description from HTML
+function extractDescription(html, maxLength = 200) {
+  const text = html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength).replace(/\s\S*$/, '') + '…';
+}
+
 // Utility: Format date for display
 function formatDisplayDate(date) {
   const d = new Date(date);
@@ -143,6 +150,10 @@ async function generatePost(post, layoutTemplate, postTemplate) {
 
   const fullHtml = renderTemplate(layoutTemplate, {
     title: `${post.title} - ${SITE_TITLE}`,
+    ogTitle: post.title,
+    ogDescription: extractDescription(post.html),
+    ogUrl: post.fullUrl,
+    ogType: 'article',
     content: postHtml
   });
 
@@ -192,6 +203,10 @@ async function generateHomePage(posts, pageNum, totalPages, layoutTemplate, home
 
   const fullHtml = renderTemplate(layoutTemplate, {
     title: pageNum === 1 ? SITE_TITLE : `${SITE_TITLE} - Page ${pageNum}`,
+    ogTitle: SITE_TITLE,
+    ogDescription: SITE_DESCRIPTION,
+    ogUrl: pageNum === 1 ? SITE_URL : `${SITE_URL}/page-${pageNum}.html`,
+    ogType: 'website',
     content: homeHtml
   });
 
@@ -362,6 +377,10 @@ async function build() {
       });
       const fullHtml = renderTemplate(layoutTemplate, {
         title: `${page.title} - ${SITE_TITLE}`,
+        ogTitle: page.title,
+        ogDescription: extractDescription(page.html),
+        ogUrl: `${SITE_URL}${page.url}`,
+        ogType: 'website',
         content: pageHtml
       });
       const outputPath = path.join(PUBLIC_DIR, `${page.slug}.html`);
