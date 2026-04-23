@@ -1,9 +1,10 @@
 ---
-title: Why everything is terrible
+title: Making *beautiful* work is getting harder
 date: 2026-04-21
+description: In the early days of LLMs, we had tools that helped us stay focused and thereby do better work. Then, in late 2024, everything began to change.
 ---
 
-Why is so much of “vibe-coding” just waiting for an agent? In the early days of LLMs, you never had to wait. You’d start typing, and your IDE could instantly autocomplete the block. This saved typing, helped keep you focused, and thereby helped you do better work.
+Why is so much of “vibe-coding” just waiting for an agent? In the early days of LLMs, we had autocomplete tools that were instantaneous. They saved typing, helped keep you focused, and thereby helped you do better work.
 
 Then, in late 2024, everything began to change. Suddenly, “reasoning” LLMs were capable of working through far more sophisticated problems. However, rather than making more sophisticated tools for people to leverage these capabilities, AI companies took a step in a very different direction. They started over with the dumbest possible tool – the chat box.
 

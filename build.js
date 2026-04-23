@@ -42,6 +42,16 @@ function extractDescription(html, maxLength = 200) {
   return text.slice(0, maxLength).replace(/\s\S*$/, '') + '…';
 }
 
+// Utility: Render inline markdown in a title (returns HTML)
+function renderTitle(text) {
+  return marked.parseInline(text);
+}
+
+// Utility: Strip HTML tags for plain text contexts
+function stripHtml(html) {
+  return html.replace(/<[^>]+>/g, '');
+}
+
 // Utility: Format date for display
 function formatDisplayDate(date) {
   const d = new Date(date);
@@ -81,8 +91,12 @@ async function parsePost(filePath) {
     date = new Date(`${year}-${month}-${day}T00:00:00`);
   }
 
+  const titleHtml = renderTitle(frontmatter.title);
+  const title = stripHtml(titleHtml);
+
   return {
-    title: frontmatter.title,
+    title,
+    titleHtml,
     date: frontmatter.date,
     dateFormatted: formatDisplayDate(frontmatter.date),
     dateISO: date.toISOString().split('T')[0], // YYYY-MM-DD format
@@ -91,6 +105,7 @@ async function parsePost(filePath) {
     month,
     day,
     slug,
+    description: frontmatter.description,
     html,
     url: `/${year}/${month}/${day}/${slug}.html`,
     fullUrl: `${SITE_URL}/${year}/${month}/${day}/${slug}.html`,
@@ -142,7 +157,7 @@ function renderTemplate(template, data) {
 // Generate individual post page
 async function generatePost(post, layoutTemplate, postTemplate) {
   const postHtml = renderTemplate(postTemplate, {
-    title: post.title,
+    title: post.titleHtml,
     dateISO: post.dateISO,
     dateFormatted: post.dateFormatted,
     content: post.html
@@ -151,7 +166,7 @@ async function generatePost(post, layoutTemplate, postTemplate) {
   const fullHtml = renderTemplate(layoutTemplate, {
     title: `${post.title} - ${SITE_TITLE}`,
     ogTitle: post.title,
-    ogDescription: extractDescription(post.html),
+    ogDescription: post.description || extractDescription(post.html),
     ogUrl: post.fullUrl,
     ogType: 'article',
     content: postHtml
@@ -175,7 +190,7 @@ async function generateHomePage(posts, pageNum, totalPages, layoutTemplate, home
   const postsHtml = pagePosts.map(post => {
     return `
     <article>
-      <h2><a href="${post.url}">${post.title}</a></h2>
+      <h2><a href="${post.url}">${post.titleHtml}</a></h2>
       <time datetime="${post.dateISO}">${post.dateFormatted}</time>
       ${post.html}
     </article>
