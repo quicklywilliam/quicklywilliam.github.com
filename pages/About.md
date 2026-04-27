@@ -1,7 +1,7 @@
 # About this site
 I’ve mostly removed myself from social media, but I miss the conversations that used to happen there. The ones that inspired, that sparked my interests. It’s hard to remember, but social media was once a place I could belong to. Nowadays, it feels pretty unwelcome.
 
-I’m a person that is constantly thinking, writing and building things. Too much of that work lives in my head, and on my hard drive. This site is my attempt to create my own space, away from social media, to share some of that work. I don’t have an agenda, but I hope some of my work speaks to you in some way.
+I’m a person that is constantly thinking, writing, and building things. Too much of that work lives in my head, and on my hard drive. This site is my attempt to create my own space, away from social media, to share some of that work. I don’t have an agenda, but I hope some of my work speaks to you in some way.
 
 You can get in touch with me via email: <span class="email" data-e="Rj-i7F1eo5pjVjgzqr-0ZOoJ4ufiN_nbaWimizXwIConeUx5C4bGH97ZGlf15VqlrQ">loading...</span>.
 <script src="/email.js"></script>
